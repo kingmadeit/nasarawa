@@ -62,3 +62,33 @@ body {
     transition: none;
   }
 }
+
+/* Loader/SiteContent pair (see src/components/layout/Loader.tsx,
+   SiteContent.tsx) — two independently-timed siblings, not a
+   parent/child reveal, so each gets its own opacity transition keyed
+   off its own data-visible attribute. */
+[data-loader] {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+[data-loader][data-visible="false"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-site-content] {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+[data-site-content][data-visible="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-loader],
+  [data-site-content] {
+    transition: none;
+  }
+}

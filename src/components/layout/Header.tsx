@@ -9,7 +9,7 @@ const NAV_LINKS = [
 
 export function Header() {
   return (
-    <header>
+    <header className="absolute inset-x-0 top-0 z-20">
       <Container
         variant="centered"
         className="flex items-center justify-between py-6"

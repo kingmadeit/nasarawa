@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Caveat, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Loader } from "@/components/layout/Loader";
+import { SiteContent } from "@/components/layout/SiteContent";
 import "./globals.css";
 
 const fontBody = Inter({
@@ -26,10 +28,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${fontBody.variable} ${fontAccent.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
-        <Header />
-        {children}
-        <Footer />
+      <body className="min-h-full bg-background text-foreground">
+        <Loader />
+        <SiteContent>
+          <Header />
+          {children}
+          <Footer />
+        </SiteContent>
       </body>
     </html>
   );
