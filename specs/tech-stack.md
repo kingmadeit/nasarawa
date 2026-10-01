@@ -91,6 +91,46 @@ Model these as Tailwind v4 `@theme inline` tokens (e.g.
 `--color-army`, `--color-dark-green`, `--color-cream`) once hex values are
 supplied, so components reference semantic names rather than raw colors.
 
+## Layout: breakpoints & containers
+
+- **Breakpoints**: Tailwind v4 defaults (`sm` 640px / `md` 768px / `lg`
+  1024px / `xl` 1280px / `2xl` 1536px), authored mobile-first (unprefixed
+  utilities are the base/mobile styles; prefixes override upward). No
+  custom breakpoint yet — add one only when a real layout need (e.g. an
+  extra grid column at ultra-wide) justifies it, not speculatively.
+- **Width is decoupled from centering.** `Container`
+  (`src/components/layout/Container.tsx`) takes a `variant`:
+  - `full` (default) — true edge-to-edge, no max-width, no padding. For
+    the image-led project grid, which must run full-bleed.
+  - `centered` — `max-w-content` (a semantic theme token, `72rem`/1152px
+    today, defined once in `globals.css`'s `--container-content`, not a
+    raw Tailwind `max-w-6xl`) plus horizontal padding. For nav, text
+    blocks, and anything else that shouldn't run edge-to-edge.
+  Pick the variant per-section rather than wrapping full-bleed content in
+  a centered container and fighting it with negative margins.
+
+## Visual taste & craft defaults
+
+v1 has to read as awwwards-caliber craft, not a generic SaaS template —
+see `mission.md`'s "editorial, not noisy" positioning. A few defaults to
+default to, overridable per-section once real design direction lands:
+
+- **White is the base canvas**, not cream. Cream/army/dark-green are
+  accent and section-level tones, not the default body background — start
+  every new surface white and introduce color deliberately.
+- **No default borders, dividers, drop shadows, or rounded "card" chrome.**
+  Separation between elements comes from whitespace and type scale, not
+  strokes or boxes. A border is a considered choice for a specific moment
+  (e.g. a hairline under a nav once that's actually load-bearing), never a
+  reflexive default between sections.
+- **Generous whitespace.** When in doubt, add more space rather than a
+  visual divider to separate content.
+- Avoid generic UI affordances (pill buttons, drop shadows, boxed stat
+  cards) that read as dashboard/SaaS rather than editorial portfolio.
+  When a styling call is ambiguous, mission.md's positioning is the
+  tiebreaker.
+
+examples: https://cipher.tv/, https://michaelgatt.com/ https://glitchandgrit.com/ https://www.meech213.com/, https://www.ilcapoproduction.com/
 ## Linting / formatting
 
 - ESLint 9, flat config (`eslint.config.mjs`), already in place via
