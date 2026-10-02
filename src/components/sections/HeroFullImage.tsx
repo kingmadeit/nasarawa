@@ -1,8 +1,8 @@
 import Image from "next/image";
-import type { HeroImage } from "@/content/hero";
+import type { ImageAsset } from "@/types/image";
 
 interface HeroFullImageProps {
-  image: HeroImage;
+  image: ImageAsset;
 }
 
 export function HeroFullImage({ image }: HeroFullImageProps) {

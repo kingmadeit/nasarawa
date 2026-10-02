@@ -4,6 +4,24 @@ For Next.js 16-specific conventions and breaking changes (async request APIs,
 `proxy.ts`, Cache Components, `next/image` defaults, etc.), see `CLAUDE.md` /
 `AGENTS.md` — not restated here.
 
+## Dependency philosophy
+
+This project is **not dependency-averse** — it's being built in small,
+reviewable increments (see `roadmap.md`), and tools (including animation
+and layout libraries) get introduced when the current increment actually
+calls for them, not avoided by default out of general caution. "v1 has no
+animation library" is a **sequencing** decision tied to what hero/grid/about/
+contact need right now, not a standing principle against dependencies —
+GSAP + Lenis are already a named, planned Phase 2 addition, not something
+being avoided forever. When a real need shows up, evaluate the trade-off
+normally (bundle cost vs. what it actually buys, like any engineering
+decision) and pick the right tool — don't reflexively default to the most
+minimal/no-dependency option, and don't treat adding a well-chosen
+dependency as something to apologize for. Flag genuinely new dependencies
+for a quick sanity check before installing, the way `masonry-layout` was
+(see "Layout: masonry grid" below), but that's a lightweight checkpoint, not
+a bar to clear only in exceptional cases.
+
 ## Framework
 
 - Next.js 16 (App Router), `src/` directory, `@/*` path alias.
@@ -18,8 +36,11 @@ For Next.js 16-specific conventions and breaking changes (async request APIs,
 
 ## Animation (v1)
 
-**No animation library in v1.** Subtle text/image entry-exit is done with
-native primitives only:
+**No animation library for v1's increment.** Hero/grid/about/contact's
+entry-exit motion is subtle enough that native primitives cover it
+completely, so there's no real need to reach further yet — not a rule
+against animation libraries in general (see "Dependency philosophy"
+above). Subtle text/image entry-exit is done with native primitives only:
 
 - A small shared hook (e.g. `useInView`) wraps `IntersectionObserver` to flip
   a `data-visible` attribute/class when an element crosses into/out of the
@@ -34,6 +55,22 @@ native primitives only:
 a named Phase 2 "nice-to-have" (see `roadmap.md`). Do not install GSAP/Lenis
 for v1 work — the IO+CSS approach is the whole animation story until that
 phase is explicitly picked up.
+
+## Layout: masonry grid
+
+`masonry-layout` (the original Desandro/Metafizzy "Masonry") is approved,
+used by `src/components/work/ProjectGrid.tsx` for height-based masonry
+packing (placing each tile into the currently-shortest column). True
+gapless masonry packing needs either JS measuring real rendered heights, or
+native CSS masonry (`grid-template-rows: masonry`), which isn't yet
+reliably supported across browsers — so CSS alone couldn't actually solve
+this, and a small, well-established library was the right call per
+"Dependency philosophy" above, not a last resort. `masonry-layout` is a
+layout library, not an animation library — it doesn't touch motion/easing,
+so the "no animation library for v1's increment" note above is unrelated.
+GSAP/Lenis/Framer Motion still wait for Phase 2 because that's when
+scroll-driven choreography is actually on the roadmap, not because
+libraries are being avoided on principle.
 
 ## Media
 
@@ -54,8 +91,8 @@ Hardcoded, typed TypeScript data — no CMS yet:
 - Shape the `Project` type generously enough (title, slug, cover image, year,
   role/category, short description, gallery) that it could later be satisfied
   by a CMS response without changing the components that consume it. Don't
-  build fields speculatively beyond what a plausible future case-study page
-  would need — just don't paint the type into a corner.
+  build fields speculatively beyond what the v1 `/work/[slug]` detail page
+  actually renders — just don't paint the type into a corner.
 
 ## Fonts
 

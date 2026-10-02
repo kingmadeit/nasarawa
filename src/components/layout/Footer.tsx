@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "./Container";
 
 export function Footer() {
@@ -8,7 +9,7 @@ export function Footer() {
         className="flex items-center justify-between py-6 text-sm"
       >
         <p>&copy; {new Date().getFullYear()} Nasarawa</p>
-        <a href="#contact">Get in touch</a>
+        <Link href="/contact">Get in touch</Link>
       </Container>
     </footer>
   );

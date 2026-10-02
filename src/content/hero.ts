@@ -1,11 +1,8 @@
-export interface HeroImage {
-  src: string;
-  alt: string;
-}
+import type { ImageAsset } from "@/types/image";
 
 export type HeroVariant =
-  | { type: "full-image"; image: HeroImage }
-  | { type: "grid"; images: HeroImage[] }
+  | { type: "full-image"; image: ImageAsset }
+  | { type: "grid"; images: ImageAsset[] }
   | { type: "video" } // reserved — payload shape TBD once a video phase is scoped
   | { type: "3d" }; // reserved — future, no payload yet
 

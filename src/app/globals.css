@@ -39,6 +39,17 @@ body {
   color: var(--color-foreground);
 }
 
+/* Layered so component-level focus-visible utilities (e.g. outline-cream,
+   outline-offset-[-4px] on ProjectGrid's tiles) can still override this
+   baseline — unlayered CSS always beats Tailwind's @layer utilities
+   regardless of specificity, so this must live in a layer too. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-black);
+    outline-offset: 2px;
+  }
+}
+
 /* CSS animation primitive for the IntersectionObserver-driven reveal
    pattern (see src/hooks/useInView.ts, src/components/motion/Reveal.tsx).
    An element opts in with data-reveal; the hook flips data-visible. */

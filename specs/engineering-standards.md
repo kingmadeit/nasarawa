@@ -157,9 +157,13 @@ is how you end up with either duplicated config or a brittle abstraction.
   `mission.md`.
 - Don't reach for `useMemo`/`useCallback` pre-emptively; add them when a
   measured re-render cost justifies it, not as a reflex.
-- Keep client-side JS minimal: per `tech-stack.md`, v1 has no animation
-  library, so a section pulling in a dependency for something CSS can do
-  is a regression against that decision, not a style nit.
+- Don't reach for a dependency to do what a few lines of CSS/native JS
+  already handles well — but this is a "pick the simplest thing that
+  actually works" bias, not a blanket anti-dependency rule. Per
+  `tech-stack.md`'s dependency philosophy, when a real need shows up
+  (e.g. the masonry grid, where CSS genuinely can't solve it), evaluate
+  the trade-off normally and bring in the right tool rather than forcing
+  a worse CSS-only workaround to avoid a small, well-chosen dependency.
 
 ## Error handling
 
