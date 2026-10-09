@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
@@ -17,7 +18,7 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
 
   return (
     <main className="flex-1">
-      <Container variant="full" className="relative aspect-[16/9]">
+      {/* <Container variant="full" className="relative aspect-[16/9]">
         <Image
           src={project.cover.src}
           alt={project.cover.alt}
@@ -26,7 +27,7 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
           sizes="100vw"
           className="object-cover"
         />
-      </Container>
+      </Container> */}
       <Container variant="centered" className="py-12">
         {(project.category || project.year) && (
           <p className="text-sm uppercase tracking-wide text-army">
@@ -42,18 +43,38 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
       </Container>
       {project.gallery.length > 0 && (
         <Container variant="full">
-          <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-            {project.gallery.map((image) => (
-              <li key={image.src} className="relative aspect-[4/5] overflow-hidden">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 640px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </li>
-            ))}
+          <ul className="grid grid-cols-1 sm:grid-cols-2">
+            {project.gallery.map((image, index) => {
+              const isFullWidth = index % 3 === 0;
+              return (
+                <li
+                  key={image.src}
+                  className={clsx(
+                    "overflow-hidden",
+                    isFullWidth ? "sm:col-span-2" : "relative aspect-[4/5]",
+                  )}
+                >
+                  {isFullWidth ? (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      sizes="100vw"
+                      className="h-auto w-full"
+                    />
+                  ) : (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </Container>
       )}

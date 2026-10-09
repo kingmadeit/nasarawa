@@ -5,7 +5,7 @@ import type { Project } from "@/content/projects";
 import { SOCIAL_LINKS, type SocialPlatform } from "@/content/social";
 
 interface ProjectSidebarProps {
-  projects: Project[];
+  projects: Partial<Project>[];
   className?: string;
 }
 
