@@ -10,7 +10,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
-        <li key={project.slug} className="group relative">
+        <li key={project.slug} className="group relative" data-scroll-reveal>
           <Link
             href={`/work/${project.slug}`}
             className="relative block aspect-[3/4] focus-visible:outline-offset-[-4px] focus-visible:outline-cream"

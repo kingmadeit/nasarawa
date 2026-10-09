@@ -18,16 +18,6 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
 
   return (
     <main className="flex-1">
-      {/* <Container variant="full" className="relative aspect-[16/9]">
-        <Image
-          src={project.cover.src}
-          alt={project.cover.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </Container> */}
       <Container variant="centered" className="py-12">
         {(project.category || project.year) && (
           <p className="text-sm uppercase tracking-wide text-army">
@@ -36,7 +26,7 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
               : project.category || project.year}
           </p>
         )}
-        <h1 className="font-accent text-4xl">{project.title}</h1>
+        <h1 className="font-accent text-army text-4xl">{project.title}</h1>
         {project.description && (
           <p className="mt-4 max-w-prose text-base">{project.description}</p>
         )}
@@ -49,6 +39,7 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
               return (
                 <li
                   key={image.src}
+                  data-scroll-reveal
                   className={clsx(
                     "overflow-hidden",
                     isFullWidth ? "sm:col-span-2" : "relative aspect-[4/5]",

@@ -74,6 +74,86 @@ body {
   }
 }
 
+/* Entrance choreography (see src/components/work/ProjectSidebar.tsx,
+   src/lib/entrance.ts) — a one-shot, staggered sequence triggered once by
+   the SiteContent ready flag, so it uses `animation` (a self-contained
+   timed sequence) rather than `transition` (state-change interpolation).
+   The logo leads with no delay; nav/sidebar items set their stagger via
+   the --entrance-delay custom property. `animation-fill-mode: both`
+   holds the end state. */
+@keyframes entrance-scale-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes entrance-fade-up {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes entrance-slide-in {
+  from { opacity: 0; transform: translateX(-1.5rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+[data-entrance] {
+  opacity: 0;
+}
+
+[data-site-content][data-visible="true"] [data-entrance="logo"] {
+  animation: entrance-scale-in 0.5s ease both;
+}
+
+[data-site-content][data-visible="true"] [data-entrance="sidebar-item"] {
+  animation: entrance-fade-up 0.45s ease both;
+  animation-delay: var(--entrance-delay, 0ms);
+}
+
+[data-site-content][data-visible="true"] [data-entrance="sidebar-panel"] {
+  animation: entrance-slide-in 0.5s ease both;
+  animation-delay: var(--entrance-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-entrance] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll-driven reveal for grid/gallery images (see
+   src/components/work/ProjectGrid.tsx,
+   src/app/(with-sidebar)/work/[slug]/page.tsx) — no JS, no
+   IntersectionObserver: the animation's progress is driven directly by
+   the element's position in the scrollport via animation-timeline. */
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+[data-scroll-reveal] {
+  animation: reveal-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@supports not (animation-timeline: view()) {
+  [data-scroll-reveal] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Loader/SiteContent pair (see src/components/layout/Loader.tsx,
    SiteContent.tsx) — two independently-timed siblings, not a
    parent/child reveal, so each gets its own opacity transition keyed

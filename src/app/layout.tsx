@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Caveat, Inter } from "next/font/google";
-import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Loader } from "@/components/layout/Loader";
 import { SiteContent } from "@/components/layout/SiteContent";
@@ -31,7 +30,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-background text-foreground">
         <Loader />
         <SiteContent>
-          <Header />
           {children}
           <Footer />
         </SiteContent>
