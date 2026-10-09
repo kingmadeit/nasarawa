@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Container } from "./Container";
 
 const NAV_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -18,20 +19,25 @@ const HEADER_VARIANT_CLASS: Record<HeaderVariant, string> = {
 };
 
 export function Header() {
-  const pathname = usePathname();
-  const variant: HeaderVariant = pathname === "/" ? "overlay" : "solid";
 
   return (
-    <header className={HEADER_VARIANT_CLASS[variant]}>
+    <header className={HEADER_VARIANT_CLASS["solid"]}>
       <Container
         variant="centered"
-        className="flex items-center justify-between py-6"
+        className="flex flex-col items-center gap-8 py-12"
       >
-        <Link href="/" className="font-accent text-2xl">
-          Nasarawa
+        <Link href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Nasarawa"
+            width={96}
+            height={96}
+            className="h-60 w-30"
+            priority
+          />
         </Link>
         <nav aria-label="Primary">
-          <ul className="flex gap-6 text-sm">
+          <ul className="flex font-accent gap-6 text-md">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href}>{link.label}</Link>

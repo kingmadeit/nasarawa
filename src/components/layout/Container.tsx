@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { ReactNode } from "react";
 
 type ContainerVariant = "full" | "centered";
@@ -18,9 +19,9 @@ export function Container({
   variant = "full",
   className,
 }: ContainerProps) {
-  const classes = [CONTAINER_VARIANT_CLASS[variant], className]
-    .filter(Boolean)
-    .join(" ");
-
-  return <div className={classes}>{children}</div>;
+  return (
+    <div className={clsx(CONTAINER_VARIANT_CLASS[variant], className)}>
+      {children}
+    </div>
+  );
 }

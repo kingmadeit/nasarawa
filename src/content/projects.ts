@@ -1,8 +1,7 @@
 import type { ImageAsset } from "@/types/image";
 
-// Cover images need real width/height (not just src/alt) so the masonry
-// grid can size each tile to the image's actual aspect ratio — that's what
-// produces the staggered masonry effect, no JS layout library involved.
+// Cover images need real width/height (not just src/alt) so `next/image`
+// has an intrinsic size to work from even where layout crops via `fill`.
 export interface ProjectCover extends ImageAsset {
   width: number;
   height: number;

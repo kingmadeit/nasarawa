@@ -30,7 +30,9 @@ export default async function ProjectDetailPage(props: PageProps<"/work/[slug]">
       <Container variant="centered" className="py-12">
         {(project.category || project.year) && (
           <p className="text-sm uppercase tracking-wide text-army">
-            {[project.category, project.year].filter(Boolean).join(" · ")}
+            {project.category && project.year
+              ? `${project.category} · ${project.year}`
+              : project.category || project.year}
           </p>
         )}
         <h1 className="font-accent text-4xl">{project.title}</h1>

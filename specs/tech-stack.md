@@ -18,9 +18,8 @@ normally (bundle cost vs. what it actually buys, like any engineering
 decision) and pick the right tool — don't reflexively default to the most
 minimal/no-dependency option, and don't treat adding a well-chosen
 dependency as something to apologize for. Flag genuinely new dependencies
-for a quick sanity check before installing, the way `masonry-layout` was
-(see "Layout: masonry grid" below), but that's a lightweight checkpoint, not
-a bar to clear only in exceptional cases.
+for a quick sanity check before installing, but that's a lightweight
+checkpoint, not a bar to clear only in exceptional cases.
 
 ## Framework
 
@@ -56,21 +55,16 @@ a named Phase 2 "nice-to-have" (see `roadmap.md`). Do not install GSAP/Lenis
 for v1 work — the IO+CSS approach is the whole animation story until that
 phase is explicitly picked up.
 
-## Layout: masonry grid
+## Layout: project grid
 
-`masonry-layout` (the original Desandro/Metafizzy "Masonry") is approved,
-used by `src/components/work/ProjectGrid.tsx` for height-based masonry
-packing (placing each tile into the currently-shortest column). True
-gapless masonry packing needs either JS measuring real rendered heights, or
-native CSS masonry (`grid-template-rows: masonry`), which isn't yet
-reliably supported across browsers — so CSS alone couldn't actually solve
-this, and a small, well-established library was the right call per
-"Dependency philosophy" above, not a last resort. `masonry-layout` is a
-layout library, not an animation library — it doesn't touch motion/easing,
-so the "no animation library for v1's increment" note above is unrelated.
-GSAP/Lenis/Framer Motion still wait for Phase 2 because that's when
-scroll-driven choreography is actually on the roadmap, not because
-libraries are being avoided on principle.
+`src/components/work/ProjectGrid.tsx` is a plain CSS grid (`grid-cols-1
+sm:grid-cols-2 lg:grid-cols-3` — 1 column on mobile, 2 on tablet, 3 on
+desktop), each tile a fixed `aspect-[3/4]` cropped via `next/image`'s
+`fill` + `object-cover`. No layout library — client direction moved away
+from the earlier masonry/staggered look to a regular grid, which Tailwind
+alone fully solves, so there's nothing to evaluate a dependency for here.
+The component is a Server Component (no client-side layout engine to
+mount/unmount).
 
 ## Media
 

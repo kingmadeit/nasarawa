@@ -23,16 +23,22 @@ speculative into v1 itself (see `mission.md` non-goals).
    `/work/[slug]` (cover, title, year, category, description, gallery) —
    pulling a slice of "Phase 3" forward rather than deferring click-through
    entirely.
-4. **About page** — build out `/about` content (stub route already created
+4. **Landing page scaffold** — rework `/`'s layout after the oski.studio
+   reference: header and footer stay above, with the body below split into
+   a sticky sidebar and a content column (`[sidebar (sticky)][content]`),
+   the content column rendering the `ProjectGrid` from step 3. Scaffolding
+   only — sidebar content/copy is whatever's already available, not new
+   design work beyond this layout shift. 
+5. **About page** — build out `/about` content (stub route already created
    in step 3).
-5. **Contact page** — build out `/contact` content and form (stub route
+6. **Contact page** — build out `/contact` content and form (stub route
    already created in step 3).
-6. **Motion pass** — apply IO+CSS entry/exit across hero, grid, about, and
+7. **Motion pass** — apply IO+CSS entry/exit across hero, grid, about, and
    contact. This is the only animation work in v1 — no scroll-driven
    choreography yet.
-7. **Performance & metadata pass** — image optimization check, a Lighthouse
+8. **Performance & metadata pass** — image optimization check, a Lighthouse
    pass, basic SEO/OG metadata.
-8. **Launch v1.**
+9. **Launch v1.**
 
 ## Later phases (named, not designed yet)
 
