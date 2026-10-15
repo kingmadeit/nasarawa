@@ -208,7 +208,9 @@ Before marking a roadmap step complete, confirm:
 - break hard tasks into smaller tasks
 - assign agents to each smaller tasks and orchestrate them
 - have a verifier in the loop
-
+- ensure agents don't repeat codes around. Follow dry principle 
+- review all agents code before accepting as done
+- dont commit without human review after all
 
 ## commit
 - no anthropic reference 

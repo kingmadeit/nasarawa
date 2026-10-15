@@ -11,7 +11,7 @@ export function ProjectLinks({ projects }: ProjectLinksProps) {
     <nav aria-label="Projects">
       <ul className="flex flex-col gap-2 text-md">
         {projects.map((project, index) => (
-          <li key={project.slug} data-entrance="sidebar-item" style={staggerDelayStyle(index)}>
+          <li key={project.slug} data-entrance="fade-up" style={staggerDelayStyle(index)}>
             <Link
               href={`/work/${project.slug}`}
               className="font-accent transition-colors text-army font-bold scale-125"

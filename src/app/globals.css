@@ -75,12 +75,13 @@ body {
 }
 
 /* Entrance choreography (see src/components/work/ProjectSidebar.tsx,
-   src/lib/entrance.ts) — a one-shot, staggered sequence triggered once by
-   the SiteContent ready flag, so it uses `animation` (a self-contained
-   timed sequence) rather than `transition` (state-change interpolation).
-   The logo leads with no delay; nav/sidebar items set their stagger via
-   the --entrance-delay custom property. `animation-fill-mode: both`
-   holds the end state. */
+   src/app/(with-sidebar)/work/[slug]/page.tsx, src/lib/entrance.ts) — a
+   one-shot, staggered sequence triggered once by the SiteContent ready
+   flag, so it uses `animation` (a self-contained timed sequence) rather
+   than `transition` (state-change interpolation). The logo leads with no
+   delay; fade-up items and panels set their stagger via the
+   --entrance-delay custom property. `animation-fill-mode: both` holds
+   the end state. */
 @keyframes entrance-scale-in {
   from { opacity: 0; transform: scale(0.85); }
   to { opacity: 1; transform: scale(1); }
@@ -104,7 +105,7 @@ body {
   animation: entrance-scale-in 0.5s ease both;
 }
 
-[data-site-content][data-visible="true"] [data-entrance="sidebar-item"] {
+[data-site-content][data-visible="true"] [data-entrance="fade-up"] {
   animation: entrance-fade-up 0.45s ease both;
   animation-delay: var(--entrance-delay, 0ms);
 }
@@ -126,7 +127,10 @@ body {
    src/components/work/ProjectGrid.tsx,
    src/app/(with-sidebar)/work/[slug]/page.tsx) — no JS, no
    IntersectionObserver: the animation's progress is driven directly by
-   the element's position in the scrollport via animation-timeline. */
+   the element's position in the scrollport via animation-timeline. Range
+   spans the whole entry phase (not just its first 40%) so the reveal is
+   still mid-flight — not already finished — by the time a normal scroll
+   gesture brings the element fully into view. */
 @keyframes reveal-in {
   from { opacity: 0; transform: translateY(2rem); }
   to { opacity: 1; transform: translateY(0); }
@@ -135,7 +139,7 @@ body {
 [data-scroll-reveal] {
   animation: reveal-in linear both;
   animation-timeline: view();
-  animation-range: entry 0% entry 40%;
+  animation-range: entry 0% entry 100%;
 }
 
 @supports not (animation-timeline: view()) {
@@ -151,6 +155,71 @@ body {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Logo-mask reveal for the home/work grid tile images (see
+   src/components/work/ProjectTile.tsx) — the studio logo mark is used as
+   a CSS mask over the cover image: it starts as a small stamp and scales
+   up as the tile scrolls into view, so the photo appears to unmask
+   itself through the logo shape rather than a plain wipe/fade. Same
+   zero-JS scroll-timeline mechanism as [data-scroll-reveal] above, but a
+   distinct attribute so the grid's reveal style can diverge from the
+   work-detail gallery's without the two coupling by accident. Applied to
+   the image wrapper only (not the whole tile), so the hover-overlay text
+   is never masked.
+
+   A second mask layer (a soft radial-gradient) is unioned with the logo
+   via the default `add` mask-composite. The logo mark is a concave shape
+   (gaps between the silhouette's points) — scaling it alone can never
+   fully cover a rectangle, so the old single-layer version would freeze
+   mid-reveal with permanent see-through holes once its animation range
+   ended. The gradient layer grows past full coverage by the final frame,
+   guaranteeing the photo reads as fully shown, and its soft falloff
+   (rather than the logo's hard silhouette edge) is what gives the
+   unmasking its blurred, fading quality. Range spans the whole entry
+   phase so the reveal has enough scroll distance to actually be seen
+   mid-flight, rather than completing almost immediately. */
+@keyframes logo-mask-reveal {
+  from {
+    -webkit-mask-size: 18% auto, 12% 12%;
+    mask-size: 18% auto, 12% 12%;
+  }
+  to {
+    -webkit-mask-size: 140% auto, 220% 220%;
+    mask-size: 140% auto, 220% 220%;
+  }
+}
+
+[data-logo-reveal] {
+  -webkit-mask-image:
+    url("/images/logo.png"),
+    radial-gradient(circle at center, #000 0%, #000 55%, transparent 100%);
+  mask-image:
+    url("/images/logo.png"),
+    radial-gradient(circle at center, #000 0%, #000 55%, transparent 100%);
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-position: center, center;
+  mask-position: center, center;
+  animation: logo-mask-reveal 1.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+@supports not (animation-timeline: view()) {
+  [data-logo-reveal] {
+    -webkit-mask-image: none;
+    mask-image: none;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-logo-reveal] {
+    -webkit-mask-image: none;
+    mask-image: none;
+    animation: none;
   }
 }
 
@@ -181,5 +250,31 @@ body {
   [data-loader],
   [data-site-content] {
     transition: none;
+  }
+}
+
+/* Scroll progress rail on the work-detail page (see
+   src/app/(with-sidebar)/work/[slug]/page.tsx) — zero-JS, driven by
+   whole-document scroll rather than a single element's viewport entry,
+   so it uses scroll() rather than view(). Not disabled under
+   prefers-reduced-motion: this is a position indicator tied directly to
+   user-driven scroll, not autoplaying decorative motion. */
+@keyframes rail-fill {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+[data-scroll-rail-fill] {
+  height: 100%;
+  background: var(--color-army);
+  transform-origin: top;
+  transform: scaleY(0);
+  animation: rail-fill linear both;
+  animation-timeline: scroll(root);
+}
+
+@supports not (animation-timeline: scroll()) {
+  [data-scroll-rail] {
+    display: none;
   }
 }

@@ -33,7 +33,7 @@ export function ContactLinks() {
         {SOCIAL_LINKS.map((social, index) => {
           const Icon = SOCIAL_ICON[social.platform];
           return (
-            <li key={social.platform} data-entrance="sidebar-item" style={staggerDelayStyle(index)}>
+            <li key={social.platform} data-entrance="fade-up" style={staggerDelayStyle(index)}>
               <a
                 href={social.href}
                 aria-label={social.label}
