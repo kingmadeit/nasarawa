@@ -100,7 +100,7 @@ export function ProjectTile({ project }: ProjectTileProps) {
             className="object-cover transition-transform duration-200 ease-out will-change-transform"
           />
         </div>
-        <div className="absolute inset-0 flex flex-col justify-end gap-1 bg-black/40 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="absolute inset-0 flex flex-col justify-end gap-1 bg-black/40 p-4 md:opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100">
           {project.category && (
             <span className="text-xs uppercase tracking-wide text-cream">
               {project.category}
