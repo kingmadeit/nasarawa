@@ -202,3 +202,13 @@ Before marking a roadmap step complete, confirm:
 7. Every effect that subscribes (observers, listeners, timers) cleans up;
    every async call is awaited/handled, not fire-and-forget.
 8. No raw user/content input rendered as HTML; no secrets in client code.
+
+
+## hard tasks
+- break hard tasks into smaller tasks
+- assign agents to each smaller tasks and orchestrate them
+- have a verifier in the loop
+
+
+## commit
+- no anthropic reference 
